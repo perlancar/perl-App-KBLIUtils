@@ -176,4 +176,8 @@ Keywords: KBLI, Klasifikasi Baku Lapangan Usaha Indonesia, ISIC, International S
 
 =head1 SEE ALSO
 
+L<https://www.bps.go.id/klasifikasi/app/kbli> (you can also browse the KBLI
+codes from L<https://oss.go.id/informasi/kbli-berbasis-risiko> but that
+website's UI is an abomination).
+
 =cut
