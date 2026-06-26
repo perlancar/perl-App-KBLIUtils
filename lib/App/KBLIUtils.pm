@@ -16,16 +16,17 @@ our %SPEC;
 my $res;
 
 $res = gen_read_table_func(
-    name => 'list_kbli_categories',
-    summary => 'List KBLI categories',
-    table_data => do { require TableData::Business::ID::KBLI::2020::Category; TableData::Business::ID::KBLI::2020::Category->new },
+    name => 'list_kbli_2020_codes',
+    summary => 'List KBLI 2020 codes',
+    table_data => do { require TableData::Business::ID::KBLI::2020::Code; TableData::Business::ID::KBLI::2020::Code->new },
 );
 die "Can't generate function: $res->[0] - $res->[1]" unless $res->[0] == 200;
 
+
 $res = gen_read_table_func(
-    name => 'list_kbli_codes',
-    summary => 'List KBLI codes',
-    table_data => do { require TableData::Business::ID::KBLI::2020::Code; TableData::Business::ID::KBLI::2020::Code->new },
+    name => 'list_kbli_2025_codes',
+    summary => 'List KBLI 2025 codes',
+    table_data => do { require TableData::Business::ID::KBLI::2025::Code; TableData::Business::ID::KBLI::2025::Code->new },
 );
 die "Can't generate function: $res->[0] - $res->[1]" unless $res->[0] == 200;
 
