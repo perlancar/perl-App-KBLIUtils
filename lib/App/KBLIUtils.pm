@@ -61,7 +61,7 @@ sub compare_kbli_2020_2025_codes {
     for my $code (@$codes) {
         my $row = {code => $code};
         if    (!$rows_in_2020{$code} && !$rows_in_2025{$code}) { $row->{status} = "UNKNOWN" }
-        elsif ( $rows_in_2020{$code} &&  $rows_in_2025{$code}) { $row->{status} = "unchanged" }
+        elsif ( $rows_in_2020{$code} &&  $rows_in_2025{$code}) { $row->{status} = "both exists" }
         elsif (!$rows_in_2020{$code} &&  $rows_in_2025{$code}) { $row->{status} = "NEW IN 2025" }
         elsif ( $rows_in_2020{$code} && !$rows_in_2025{$code}) { $row->{status} = "DELETED IN 2025" }
 
@@ -74,14 +74,104 @@ sub compare_kbli_2020_2025_codes {
     $res;
 }
 
+$SPEC{get_kbli_2020_title} = {
+    v => 1.1,
+    summary => 'Get title for a KBLI 2020 code',
+    args => {
+        code => {
+            schema => 'str*',
+            req => 1,
+            pos => 0,
+        },
+    },
+};
+sub get_kbli_2020_title {
+    my %args = @_;
+    my $code = $args{code}; $code or return [400, "Please specify one or more codes"];
+
+    my $td = do { require TableData::Business::ID::KBLI::2020::Code; TableData::Business::ID::KBLI::2020::Code->new };
+
+    my $title;
+    $td->each_item(sub { my ($row, $table, $index) = @_; if ($code == $row->[0]) { $title = $row->[1]; 0 } else { 1 } });
+    if ($title) { [200, "OK", $title] } else { [404, "Code not found"] }
+}
+
+$SPEC{get_kbli_2020_description} = {
+    v => 1.1,
+    summary => 'Get description for a KBLI 2020 code',
+    args => {
+        code => {
+            schema => 'str*',
+            req => 1,
+            pos => 0,
+        },
+    },
+};
+sub get_kbli_2020_description {
+    my %args = @_;
+    my $code = $args{code}; $code or return [400, "Please specify one or more codes"];
+
+    my $td = do { require TableData::Business::ID::KBLI::2020::Code; TableData::Business::ID::KBLI::2020::Code->new };
+
+    my $description;
+    $td->each_item(sub { my ($row, $table, $index) = @_; if ($code == $row->[0]) { $description = $row->[2]; 0 } else { 1 } });
+    if ($description) { [200, "OK", $description] } else { [404, "Code not found"] }
+}
+
+$SPEC{get_kbli_2025_title} = {
+    v => 1.1,
+    summary => 'Get title for a KBLI 2025 code',
+    args => {
+        code => {
+            schema => 'str*',
+            req => 1,
+            pos => 0,
+        },
+    },
+};
+sub get_kbli_2025_title {
+    my %args = @_;
+    my $code = $args{code}; $code or return [400, "Please specify one or more codes"];
+
+    my $td = do { require TableData::Business::ID::KBLI::2025::Code; TableData::Business::ID::KBLI::2025::Code->new };
+
+    my $title;
+    $td->each_item(sub { my ($row, $table, $index) = @_; if ($code == $row->[0]) { $title = $row->[1]; 0 } else { 1 } });
+    if ($title) { [200, "OK", $title] } else { [404, "Code not found"] }
+}
+
+$SPEC{get_kbli_2025_description} = {
+    v => 1.1,
+    summary => 'Get description for a KBLI 2025 code',
+    args => {
+        code => {
+            schema => 'str*',
+            req => 1,
+            pos => 0,
+        },
+    },
+};
+sub get_kbli_2025_description {
+    my %args = @_;
+    my $code = $args{code}; $code or return [400, "Please specify one or more codes"];
+
+    my $td = do { require TableData::Business::ID::KBLI::2025::Code; TableData::Business::ID::KBLI::2025::Code->new };
+
+    my $description;
+    $td->each_item(sub { my ($row, $table, $index) = @_; if ($code == $row->[0]) { $description = $row->[2]; 0 } else { 1 } });
+    if ($description) { [200, "OK", $description] } else { [404, "Code not found"] }
+}
+
 1;
-#ABSTRACT: Utilities related to chemistry
+#ABSTRACT: Utilities related to Indonesian KBLI ("Klasifikasi Baku Lapangan Usaha Indonesia" a.k.a. the Indonesian ISIC "International Standard Industrial Classification of All Economic Activities")
 
 =head1 DESCRIPTION
 
 This distributions provides the following command-line utilities:
 
 # INSERT_EXECS_LIST
+
+Keywords: KBLI, Klasifikasi Baku Lapangan Usaha Indonesia, ISIC, International Standard Industrial Classification of All Economic Activities
 
 
 =head1 SEE ALSO
